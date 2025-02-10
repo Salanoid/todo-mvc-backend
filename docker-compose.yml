@@ -30,8 +30,7 @@ services:
   migrate:
     build: .
     command: >
-      bash -c "bin/rails db:create &&
-               bin/rails db:migrate"
+      bash -c "bin/rails db:migrate"
     depends_on:
       - db
     environment:
