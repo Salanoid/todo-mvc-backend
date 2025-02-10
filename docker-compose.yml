@@ -1,0 +1,42 @@
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres 
+      POSTGRES_PASSWORD: password 
+      POSTGRES_DB: todo_mvc_backend_development
+      RACK_CORS_ORIGIN: "*"
+      RACK_CORS_RESOURCE: "*"
+    
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    command: bin/rails server -b 0.0.0.0 -p 3000
+    volumes:
+      - .:/todo-mvc-backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_HOST: db
+      DATABASE_USERNAME: postgres 
+      DATABASE_PASSWORD: password 
+
+  migrate:
+    build: .
+    command: >
+      bash -c "bin/rails db:migrate"
+    depends_on:
+      - db
+    environment:
+      DATABASE_HOST: db
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: password
+
+volumes:
+  postgres_data:
