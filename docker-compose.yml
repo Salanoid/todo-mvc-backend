@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:15
@@ -7,6 +5,9 @@ services:
       POSTGRES_USER: postgres 
       POSTGRES_PASSWORD: password 
       POSTGRES_DB: todo_mvc_backend_development
+      RACK_CORS_ORIGIN: "*"
+      RACK_CORS_RESOURCE: "*"
+    
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
