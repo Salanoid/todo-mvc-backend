@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe Mutations::Todo::CreateTodoMutation, type: :request do
   let(:graphql_uri) { '/graphql' }
-  let(:create_todo_mutation_string) do 
+  let(:create_todo_mutation_string) do
     <<-'GRAPHQL'
       mutation CreateTodo($input: CreateTodoMutationInput!) {
         createTodo(input: $input) {
@@ -47,6 +47,6 @@ RSpec.describe Mutations::Todo::CreateTodoMutation, type: :request do
       params: { query: create_todo_mutation_string, variables: { input: { random: "" } } }
     )
     parsed_body = JSON.parse(response.body)
-    expect(parsed_body).to eq({"errors" => [{"extensions" => {"problems" => [{"explanation" => "Field is not defined on CreateTodoMutationInput", "path" => ["random"]}, {"explanation" => "Expected value to not be null", "path" => ["body"]}], "value" => {"random" => ""}}, "locations" => [{"column" => 27, "line" => 1}], "message" => "Variable $input of type CreateTodoMutationInput! was provided invalid value for random (Field is not defined on CreateTodoMutationInput), body (Expected value to not be null)"}]}) 
+    expect(parsed_body).to eq({ "errors" => [ { "extensions" => { "problems" => [ { "explanation" => "Field is not defined on CreateTodoMutationInput", "path" => [ "random" ] }, { "explanation" => "Expected value to not be null", "path" => [ "body" ] } ], "value" => { "random" => "" } }, "locations" => [ { "column" => 27, "line" => 1 } ], "message" => "Variable $input of type CreateTodoMutationInput! was provided invalid value for random (Field is not defined on CreateTodoMutationInput), body (Expected value to not be null)" } ] })
   end
 end
