@@ -2,6 +2,8 @@
 
 module Types
   class QueryType < Types::BaseObject
+    field :todos, [ Types::TodoType ], null: true, resolver: Resolvers::TodosResolver, description: "Todo Type"
+
     field :node, Types::NodeType, null: true, description: "Fetches an object given its ID." do
       argument :id, ID, required: true, description: "ID of the object."
     end
@@ -20,7 +22,5 @@ module Types
 
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
-
-    field :todos, [ Types::TodoType ], null: true, resolver: Resolvers::TodosResolver, description: "Todo Type"
   end
 end
