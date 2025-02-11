@@ -7,6 +7,7 @@ RSpec.describe Mutations::Todo::CreateTodoMutation, type: :request do
       mutation CreateTodo($input: CreateTodoMutationInput!) {
         createTodo(input: $input) {
           body
+          active
         }
       }
     GRAPHQL
@@ -20,7 +21,7 @@ RSpec.describe Mutations::Todo::CreateTodoMutation, type: :request do
     parsed_body = JSON.parse(response.body)
 
     expect(response.status).to eq 200
-    expect(parsed_body).to eq({ 'data' => { 'createTodo' => { 'body' => 'todo content' } } })
+    expect(parsed_body).to eq({ 'data' => { 'createTodo' => { 'active' => true, 'body' => 'todo content' } } })
   end
 
   it "validate empty body" do

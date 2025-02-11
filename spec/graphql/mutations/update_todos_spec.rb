@@ -13,6 +13,15 @@ RSpec.describe Mutations::Todo::UpdateTodoMutation, type: :request do
       }
     GRAPHQL
   end
+  let(:mark_todo_mutation_active) do
+    <<-'GRAPHQL'
+      mutation UpdateTodo($input: UpdateTodoMutationInput!) {
+        updateTodo(input: $input) {
+          active
+        }
+      }
+    GRAPHQL
+  end
 
   it "update todo" do
     post(
@@ -53,5 +62,18 @@ RSpec.describe Mutations::Todo::UpdateTodoMutation, type: :request do
     )
     parsed_body = JSON.parse(response.body)
     expect(parsed_body).to eq({ "errors" => [ { "message" => "Missing item", "locations" => [ { "line" => 2, "column" => 9 } ], "path" => [ "updateTodo" ] } ], "data" => { "updateTodo" => nil } })
+  end
+
+
+  it "mark as completed" do
+    post(
+      graphql_uri,
+      params: { query: mark_todo_mutation_active, variables: { input: { id: Todo.first.id, active: false } } },
+      as: :json
+    )
+    parsed_body = JSON.parse(response.body)
+
+    expect(response.status).to eq 200
+    expect(parsed_body).to eq({ "data" => { "updateTodo" => { "active" => false } } })
   end
 end
