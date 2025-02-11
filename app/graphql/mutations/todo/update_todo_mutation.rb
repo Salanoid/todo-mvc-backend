@@ -2,7 +2,8 @@ module Mutations
   module Todo
     class UpdateTodoMutation < ::Mutations::BaseMutation
       argument :id, ID, required: true
-      argument :body, String, required: true
+      argument :body, String, required: false
+      argument :active, Boolean, required: false
 
       def resolve(*args)
         params = args.first.dup
