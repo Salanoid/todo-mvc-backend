@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Resolvers::TodoResolver, type: :request do
+RSpec.describe Resolvers::TodosResolver, type: :request do
   fixtures :todos
 
   let(:graphql_uri) { '/graphql' }
