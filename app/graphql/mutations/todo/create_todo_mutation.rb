@@ -5,11 +5,7 @@ module Mutations
 
       def resolve(*args)
         todo_params = args.first.dup
-        create_todo_result = Mutations::ActionMutation.handle!(
-          ::Todo,
-          :create,
-          todo_params
-        )
+        create_todo_result = ::Todo.create(todo_params)
 
         handle_errors_for(create_todo_result)
         create_todo_result
@@ -18,12 +14,8 @@ module Mutations
       private
 
       def handle_errors_for(create_todo_result)
-        if create_todo_result.is_a?(::Todo)
-          if create_todo_result.errors.present?
-            raise GraphQL::ExecutionError, create_todo_result.errors.full_messages.join(", ")
-          end
-        else
-          raise GraphQL::ExecutionError, create_todo_result
+        if create_todo_result.errors.present?
+          raise GraphQL::ExecutionError, create_todo_result.errors.full_messages.join(", ")
         end
       end
     end
